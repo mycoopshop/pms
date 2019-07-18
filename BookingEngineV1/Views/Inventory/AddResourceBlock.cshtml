@@ -1,0 +1,54 @@
+﻿@model AddResourceBlockViewModel
+
+<h2>Add room block from sales</h2>
+
+<form asp-action="AddResourceBlock" method="post">
+    <table>
+        <tr>
+            <td><label asp-for="ResourceBlock.ResourceBlockID">ResourceBlockID</label></td>
+            <td><input type="hidden" asp-for="ResourceBlock.ResourceBlockID" readonly value="0" /></td>
+        </tr>
+        <tr>
+            <td>
+                <label asp-for="ResourceBlock.ResourceID">ResourceID</label>
+            </td>
+            <td>
+                <select asp-for="ResourceBlock.ResourceID">
+                    @if (Model.ResourceBlock.ResourceID == 0)
+                    {
+                        <option disabled selected>Choose Room</option>
+
+                    }
+                    @foreach (Resource r in Model.Resources)
+                    {
+                        <option selected=@(Model.ResourceBlock.ResourceID == r.ResourceID) value="@r.ResourceID">@r.Name</option>
+
+                    }
+                </select>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label asp-for="ResourceBlock.DateFrom">Date From</label>
+            </td>
+            <td>
+                <input type="date" asp-for="ResourceBlock.DateFrom" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label asp-for="ResourceBlock.DateTo">Date To</label>
+            </td>
+            <td>
+                <input type="date" asp-for="ResourceBlock.DateTo" />
+            </td>
+        </tr>
+        <tr>
+            <td><button type="submit">Save</button></td>
+            <td><a asp-action="Index">Cancel</a></td>
+        </tr>
+
+    </table>
+</form>
+

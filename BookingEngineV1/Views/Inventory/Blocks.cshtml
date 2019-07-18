@@ -1,0 +1,60 @@
+﻿@model List<ResourceBlock>
+
+
+<h3 class="p-2 bg-primary text-white text-center">Inventory blocked from sales</h3>
+
+
+<table>
+    @if (ViewBag.UpdateAll != true)
+    {
+        <tr>
+            <th> ResourceStockID</th>
+            <th> ResourceID</th>
+            <th> Name</th>
+            <th> DateFrom</th>
+            <th> DateTo</th>
+
+        </tr>
+
+        @if (Model.Count() == 0)
+        {
+            <tr>
+                <td>No Data</td>
+            </tr>
+
+        }
+        else
+        {
+            @foreach (ResourceBlock rb in Model)
+            {
+                <tr>
+                    <td>@rb.ResourceBlockID</td>
+                    <td>@rb.ResourceID </td>
+                    <td>@rb.Resource.Name</td>
+                    <td>@rb.DateFrom.ToShortDateString() </td>
+                    <td>@rb.DateTo.ToShortDateString()</td>
+                    <td>
+                        <a asp-action="UpdateResourceStock" asp-route-resourceStockID="@rb.ResourceBlockID">Edit</a>
+                    </td>
+                    <td class="td">
+                        <form asp-action="DeleteResourceBlock" method="post">
+                            <input type="hidden" name="ResourceBlockID" value="@rb.ResourceBlockID" />
+                            <button type="submit">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+
+
+            }
+
+        }
+
+
+    }
+
+</table>
+
+<div class="text-center">
+    <a asp-action="AddResourceBlock" asp-route-key="0" class="btn btn-primary">Add</a>
+</div>
+

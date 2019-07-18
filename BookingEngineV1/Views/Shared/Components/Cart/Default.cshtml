@@ -1,0 +1,15 @@
+﻿@model Cart
+@*@if (Model?.Selections?.Count() > 0)
+    {
+        <div>
+            @Model.Selections.Count() , bookingItems,
+        $@(Model.Selections.Sum(i => i.NumberOfUnits
+                   * i.PricePerUnit).ToString("f2"))
+    </div>
+    if (ViewContext.RouteData.Values["controller"] as string != "Cart")
+    {
+        <a asp-action="Index" asp-controller="Cart">Checkout</a>
+
+    }
+
+    }*@

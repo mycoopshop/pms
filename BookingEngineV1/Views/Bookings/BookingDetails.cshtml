@@ -1,0 +1,11 @@
+﻿@model Cart
+
+@if (Model != null)
+{
+    if (Model.CartItems != null && Model.CartItems.Count() > 0)
+    {
+        @Html.Partial("_BookingSummary", Model)
+
+    }
+
+}

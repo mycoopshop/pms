@@ -1,0 +1,48 @@
+﻿<script>
+    import HotelDatePicker from 'vue-hotel-datepicker';
+</script>
+
+<h2>Select your dates</h2>
+
+<HotelDatePicker :disabledDaysOfWeek="['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Sunday']"
+                 :enableCheckout="true"
+                 :allowedRanges="[7,10,14]"></HotelDatePicker>
+
+<table>
+    <tr style="height: 100px">
+        <td style="background-color:lightgreen;">
+            <a asp-controller="Bookings" asp-action="Index">Bookings</a>
+        </td>
+        <td style="background-color:lightgreen;">
+            <a asp-controller="Resources" asp-action="Index">Rooms</a>
+        </td>
+        <td style="background-color:lightgreen;">
+            <a asp-controller="Inventory" asp-action="Index">Inventory</a>
+        </td>
+        <td style="background-color:lightgreen;">
+            <a asp-controller="Inventory" asp-action="Blocks">Blocked inventory</a>
+        </td>
+        <td>
+            Prices
+        </td>
+    </tr>
+    <tr style="height: 100px">
+        <td style="background-color:lightgreen;">
+            <a asp-controller="ResourceStatusChange" asp-action="Index">House keeping</a>
+        </td>
+        <td style="background-color:lightgreen;">
+            <a asp-controller="ResourceAssignment" asp-action="Index">Room assignment</a>
+        </td>
+        <td>
+            Analytics
+        </td>
+    </tr>
+    <tr style="height: 100px">
+        <td>
+            Check-in
+        </td>
+        <td>
+            Check-out
+        </td>
+    </tr>
+</table>

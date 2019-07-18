@@ -1,0 +1,77 @@
+﻿@model Cart
+@{
+
+}
+
+@*
+    VIEWMODEL has to include
+        1. Cart
+        2. Selected Resource Types
+        3. Discounts
+        4. Taxations
+        5. Cancellation policy
+*@
+<h3>Your Booking details</h3>
+<div class="table">
+    <div class="tr">
+        <div class="td">Date of booking</div>
+        <div class="td">@Model.DateOfBooking </div>
+    </div>
+    <div class="tr">
+        <div class="td"># of items</div>
+        <div class="td">@Model.CartItems.Count()</div>
+    </div>
+</div>
+
+<h3>Selected Products</h3>
+<div class="table">
+    @foreach (CartItem ci in Model.CartItems)
+    {
+        <div class="tr">
+            <div class="td">@ci.ResourceType.Name</div>
+            <div class="td">@ci.NumberOfUnits</div>
+        </div>
+        <div class="tr">
+            <div class="td">Date of arrival</div>
+            <div class="td">@ci.DateOfArrival.ToShortDateString()</div>
+        </div>
+        <div class="tr">
+            <div class="td">Date of departure</div>
+            <div class="td">@ci.DateOfDeparture.ToShortDateString()</div>
+        </div>
+
+    }
+</div>
+
+
+<h3>Price summary</h3>
+<div class="table">
+    <div class="tr">
+        <div class="td">@Model.CartItems.Count()<span>&nbsp;Rooms</span></div>
+        <div class="td">@(Model.PriceBeforeTax - Model.TotalPromotion)</div>
+    </div>
+    @* LOOP DISCOUNTS *@
+    <div class="tr">
+        <div class="td">Discount</div>
+        <div class="td">@Model.TotalPromotion</div>
+    </div>
+    <div class="tr">
+        <div class="td">Price of your stay</div>
+        <div class="td">@Model.PriceBeforeTax </div>
+    </div>
+    <div class="tr">
+        <div class="td">@Model.VATPercentage<span>&nbsp;VAT</span></div>
+        <div class="td">@Model.VAT</div>
+    </div>
+
+    <div class="tr">
+        <div class="td">Total Price</div>
+        <div class="td">@Model.PriceAfterTax</div>
+    </div>
+</div>
+
+<div style="overflow-x:auto;">
+    @Html.Partial("_BookingDetails", Model)
+</div>
+
+

@@ -1,0 +1,54 @@
+﻿@model AddResourceStockViewModel
+
+<h2>Add room inventory</h2>
+
+<form asp-action="AddResourceStock" method="post">
+    <table>
+        <tr>
+            <td><label asp-for="ResourceStock.ResourceStockID">ResourceStockID</label></td>
+            <td><input type="hidden" asp-for="ResourceStock.ResourceStockID" readonly value="0" /></td>
+        </tr>
+        <tr>
+            <td>
+                <label asp-for="ResourceStock.ResourceID">ResourceID</label>
+            </td>
+            <td>
+                <select asp-for="ResourceStock.ResourceID">
+                    @if (Model.ResourceStock.ResourceID == 0)
+                    {
+                        <option disabled selected>Choose Room</option>
+
+                    }
+                    @foreach (Resource r in Model.Resources)
+                    {
+                        <option selected=@(Model.ResourceStock.ResourceID == r.ResourceID) value="@r.ResourceID">@r.Name</option>
+
+                    }
+                </select>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label asp-for="ResourceStock.DateFrom">Date From</label>
+            </td>
+            <td>
+                <input type="date" asp-for="ResourceStock.DateFrom" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label asp-for="ResourceStock.DateTo">Date To</label>
+            </td>
+            <td>
+                <input type="date" asp-for="ResourceStock.DateTo" />
+            </td>
+        </tr>
+        <tr>
+            <td><button type="submit">Save</button></td>
+            <td><a asp-action="Index">Cancel</a></td>
+        </tr>
+
+    </table>
+</form>
+

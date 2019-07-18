@@ -1,0 +1,87 @@
+﻿@model CreateBookingViewModel
+
+<h2>CreateBooking</h2>
+
+<form asp-controller="Bookings" asp-action="GetAvailabilities" method="post">
+    <div class="table">
+        <div class="tr">
+            <div class="td"><label asp-for="@Model.Inquiry.CompanyID">CompanyID</label></div>
+            <div class="td"><input name="companyID" value="@Model.Inquiry.CompanyID" /></div>
+        </div>
+        <div class="tr">
+            <div class="td"><label>DateOfArrival</label></div>
+            <div class="td"> <input type="date" name="dateOfArrival" value="@Model.Inquiry.DateOfArrival.ToString("yyyy-MM-dd")" /></div>
+        </div>
+        <div class="tr">
+            <div class="td">DateOfDeparture</div>
+            <div class="td"> <input type="date" name="dateOfDeparture" value="@Model.Inquiry.DateOfDeparture.ToString("yyyy-MM-dd")" /></div>
+        </div>
+        <div class="tr">
+            <div class="td"></div>
+            <div class="td"><button type="submit">Check availabilities</button></div>
+        </div>
+    </div>
+</form>
+
+
+@if (Model.OfferedResourceTypes != null)
+{
+    <div style="overflow-x:auto;">
+        @Html.Partial("_AvailableResourceTypes", Model);
+    </div>
+}
+
+<form asp-controller="Bookings" asp-action="CreateNewBooking" method="post">
+    <div class="table">
+
+        <div class="tr">
+            <div class="td"><label>ChannelID</label></div>
+            <div class="td"><input asp-for="@Model.ChannelID" /></div>
+        </div>
+        <div class="tr">
+            <div class="td"><label>UserID</label></div>
+            <div class="td"> <input asp-for="@Model.UserID" /></div>
+        </div>
+        <div class="tr">
+            <div class="td"><label>ResourceTypeID</label></div>
+            <div class="td"><input name="resourceTypeID" /></div>
+        </div>
+        <div class="tr">
+            <div class="td"><label>NumberOfUnits</label></div>
+            <div class="td"><input type="number" name="numberOfUnits" /></div>
+        </div>
+        <div class="tr">
+            <div class="td"><label>RateCompositionID</label></div>
+            <div class="td"><input name="rateCompositionID" /></div>
+        </div>
+
+        <div class="tr">
+            <div class="td"><label>NumberOfGuests</label></div>
+            <div class="td"><input type="number" name="numberOfGuests" /></div>
+        </div>
+        <div class="tr">
+            <div class="td"><label>Guestnames</label></div>
+            <div class="td"><input name="guestNames" /></div>
+        </div>
+        <div class="tr">
+            <div class="td"></div>
+            <div class="td"><button type="submit">Create booking</button></div>
+        </div>
+
+    </div>
+</form>
+
+@section Sidebar_right
+    {
+    @if (Model != null)
+    {
+        if (Model.Cart != null)
+        {
+            if (Model.Cart.CartItems != null && Model.Cart.CartItems.Count > 0)
+            {
+                @Html.Partial("_BookingQuickSummary", Model.Cart)
+            }
+
+        }
+    }
+}

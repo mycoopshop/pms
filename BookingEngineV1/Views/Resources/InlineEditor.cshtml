@@ -1,0 +1,32 @@
+﻿@model IEnumerable<Resource>
+
+
+<div class="row">
+    <div class="td">CompanyID</div>
+    <div class="td">ResourceID</div>
+    <div class="td">Name</div>
+    <div class="td">ResourceTypeID</div>
+    <div class="td">Description</div>
+</div>
+
+@{ 
+    int i = 0;
+}
+
+<form asp-action="UpdateAll" method="post">
+    @foreach (Resource r in Model)
+    {
+    <div class="row">
+        <div class="td">@r.ResourceID <input type="hidden" name="Resources[@i].ResourceID" value="@r.ResourceID" /></div>
+        <div class="td"><input class="form-control" name="Resources[@i].CompanyID" value="@r.CompanyID" /></div>
+        <div class="td"><input class="form-control" name="Resources[@i].Name" value="@r.Name" /></div>
+        <div class="td"><input class="form-control" name="Resources[@i].ResourceTypeID" value="@r.ResourceTypeID" /></div>
+        <div class="td"><input class="form-control" name="Resources[@i].Description" value="@r.Description" /></div>
+    </div>
+        i++;
+    }
+    <div>
+        <button type="submit" class="btn btn-primary">Save All</button>
+        <a asp-action="Index">Cancel</a>
+    </div>
+</form>

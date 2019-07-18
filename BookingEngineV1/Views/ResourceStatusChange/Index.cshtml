@@ -1,0 +1,67 @@
+﻿@model ResourceStatusChangeViewModel
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Room status manager </h2>
+
+<div class="table">
+    <div class="tr">
+        <div class="td">Room ID</div>
+        <div class="td">Name</div>
+        <div class="td">Room Type</div>
+        <div class="td">Current Status ID</div>
+        <div class="td">Status Name</div>
+        <div class="td">Change Date</div>
+        <div class="td">UserId</div>
+        <div class="td">Change to</div>
+
+    </div>
+
+    @foreach (CurrentResourceStatusViewModel rsc in Model.CurrentResourceStatuses)
+    {
+        <div class="tr">
+            <div class="td">@rsc.ResourceID</div>
+            <div class="td">@rsc.ResourceName</div>
+            <div class="td">@rsc.ResourceTypeName</div>
+            <div class="td">@rsc.ResourceStatusID </div>
+            <div class="td">@rsc.ResourceStatusName </div>
+            <div class="td">@rsc.ChangeDate </div>
+            <div class="td">@rsc.UserID </div>
+
+            @{ List<SelectListItem> myList = new List<SelectListItem>();
+                @foreach (ResourceStatus rs in Model.ResourceStatusesAvailable)
+                {
+                    SelectListItem li = new SelectListItem();
+                    li.Text = rs.Name;
+                    li.Value = rs.ResourceStatusID.ToString();
+                    myList.Add(li);
+                }
+            }
+
+            <div class="td">
+                <form asp-action="AddResourceStatusChange"  method="post">
+                    <input type="hidden" name="resourceStatusID" id="@("newStatus" + @rsc.ResourceID)" value="setByJS_script" />
+                    <input type="hidden" name="resourceID" value="@rsc.ResourceID" />
+                    @Html.DropDownList("Select" + rsc.ResourceID, myList, "Change", new { @onchange = "ResourceStatusPostBack(this," + rsc.ResourceID + ");", @style = "width:100px" })
+                </form>
+             </div>
+        </div>
+
+    }
+
+</div>
+<script>
+    function ResourceStatusPostBack(selectlist, rs)
+{
+        var select =selectlist;
+        var input = document.getElementById("newStatus" + rs);
+        var selValue = select.options[select.selectedIndex].value;
+        input.value = selValue;
+        console.log(input.form);
+        input.form.submit();
+
+}
+</script>
+
+

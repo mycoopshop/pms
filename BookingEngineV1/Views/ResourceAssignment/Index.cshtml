@@ -1,0 +1,93 @@
+﻿@model ResourceAssignmentViewModel
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Room assignment</h2>
+
+<form asp-action="Index" name="Index" method="get">
+    <input type="date" name="dateOfArrival" value="@Model.DateOfArrival.ToString("yyyy-MM-dd")"/>
+    <input type="hidden" name="companyID" value="B68162" />
+    <button type="submit">Search</button>
+</form>
+
+<div class="table">
+    <div class="tr">
+        <div class="td">BookingItemID</div>
+        <div class="td">GuestNames</div>
+        <div class="td">NumberOfNights</div>
+        <div class="td">Rate composition</div>
+        <div class="td">Room type</div>
+        <div class="td">Number of rooms</div>
+        <div class="td">Avg price per night</div>
+        <div class="td">Room(s) assigned</div>
+        <div class="td">Assigned new room</div>
+    </div>
+    @* BOOKINGITEMS BY ARRIVAL DATE *@
+    @foreach (BookingRoomStay bi in Model.BookingItemsByArrivalDate.OrderBy(x=>x.ResourceTypeId))
+    {
+        <div class="tr">
+            <div class="td">@bi.BookingRoomStayId</div>
+            <div class="td">@bi.Booking.GuestNames</div>
+            <div class="td">@((bi.DateOfDeparture - bi.DateOfArrival).TotalDays.ToString("#0"))</div>
+            <div class="td">@bi.RateComposition.Name</div>
+            <div class="td">@bi.ResourceType.Name</div>
+            <div class="td">@bi.NumberOfUnits</div>
+            <div class="td">@bi.AveragePricePerNight.ToString("f2")</div>
+            <div class="td">
+                @{foreach (BookingRoomStayResourceAssignment ra in bi.BookingRoomStayResourceAssignments)
+                    {
+                        <form asp-action="RemoveResourceAssignment" name="@("RemoveAssignment"+ ra.BookingRoomStayResourceAssignmentID)" mothod="post">
+                            <Span>@ra.Resource.Name </Span>
+                            <input type="hidden" name="bookingRoomStayResourceAssignmentID" value="@ra.BookingRoomStayResourceAssignmentID" />
+                            <input type="hidden" name="ResourceID" value="@ra.ResourceID" />
+                            <input type="hidden" name="BookingItemID" value="@ra.BookingRoomStayID" />
+                            <input type="hidden" name="dateOfArrival" value="@bi.DateOfArrival" />
+                            <input type="hidden" name="companyID" value="@Model.CompanyID" />
+
+                            <button type="submit">Delete</button>
+                        </form>
+                    }
+
+                }
+            </div>
+            @if (bi.BookingRoomStayResourceAssignments.Count < bi.NumberOfUnits)
+            {
+                List<SelectListItem> resourcesAvailable = new List<SelectListItem>();
+                @foreach (Resource r in bi.ResourcesAvailableForAssignment)
+                {
+                    SelectListItem li = new SelectListItem();
+                    li.Text = r.Name;
+                    li.Value = r.ResourceID.ToString();
+                    resourcesAvailable.Add(li);
+                }
+
+
+
+                <div class="td">
+                    <form asp-action="AddResourceAssignment" method="post">
+                        <input type="hidden" name="resourceID" id="@("assignedResource" + bi.BookingRoomStayId)" value="setByJS_script" />
+                        <input type="hidden" name="bookingRoomStayID" value="@bi.BookingRoomStayId" />
+                        <input type="hidden" name="dateOfArrival" value="@Model.DateOfArrival" />
+                        <input type="hidden" name="companyID" value="@Model.CompanyID" />
+                        @Html.DropDownList("Select" + bi.BookingRoomStayId, resourcesAvailable, "Assign room", new { @onchange = "ResourceAssignPostBack(this," + bi.BookingRoomStayId + ");", @style = "width:130px" })
+                    </form>
+                </div>
+
+            }
+            </div>
+        }
+</div>
+
+<script>
+    function ResourceAssignPostBack(selectlist, bi)
+{
+        var select =selectlist;
+        var input = document.getElementById("assignedResource" + bi);
+        var selValue = select.options[select.selectedIndex].value;
+        input.value = selValue;
+        console.log(input.form);
+        input.form.submit();
+
+}
+</script>

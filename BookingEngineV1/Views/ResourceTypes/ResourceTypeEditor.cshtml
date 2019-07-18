@@ -1,0 +1,26 @@
+﻿@model ResourceType
+
+
+        <div class="td"></div>
+        <div class="td">
+            <input asp-for="Name" />
+        </div>
+
+            @if (Model.ResourceTypeID == 0)
+            {
+                <div class="td"><button type="submit">Add</button></div>
+
+            }
+            else
+            {
+                <div class="td"><button type="submit">Save</button></div>
+                <div class="td"><a asp-action="Index">Cancel</a></div>
+
+            }
+
+
+  
+
+
+
+

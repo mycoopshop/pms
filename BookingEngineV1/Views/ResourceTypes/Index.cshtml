@@ -1,0 +1,60 @@
+﻿@model IEnumerable<ResourceType>
+
+<h3>ResourceTypes</h3>
+
+<div>
+    @Html.Partial("Pages", Model)
+    @{
+        ViewBag.searches = new string[] { "Name", "Description" };
+        ViewBag.sorts = new string[] { "Name", "Description" };
+    }
+    @Html.Partial("PageOptions", Model)
+</div>
+
+<div class="table">
+    <div class="tr">
+        <div class="td">ResourceTypeID</div>
+        <div class="td">Name</div>
+        <div class="td">Description</div>
+        <div class="td"></div>
+        <div class="td"></div>
+    </div>
+
+    <div class="tr">
+        @if (ViewBag.EditId == null)
+        {
+            <form class="tr" asp-action="AddResourceType" method="post">
+                @Html.Partial("ResourceTypeEditor", new ResourceType())
+            </form>
+        }
+    </div>
+
+    @foreach (ResourceType rt in Model)
+    {
+        @if (rt.ResourceTypeID == ViewBag.EditId)
+        {
+            <form class="tr" asp-action="UpdateResourceType" method="post">
+                <input type="hidden" name="ResourceTypeId" value="@rt.ResourceTypeID" />
+                @Html.Partial("ResourceTypeEditor", rt)
+            </form>
+        }
+        else
+        {
+            <form class="tr" asp-action="DeleteResourceType" method="post">
+                    <div class="td">@rt.ResourceTypeID</div>
+                    <div class="td">@rt.Name</div>
+                <div class="td">@rt.Description</div>
+                    <div class="td">
+                        <input type="hidden" name="ResourceTypeID" value="@rt.ResourceTypeID" />
+                        <a asp-action="EditResourceType" asp-route-ResourceTypeID="@rt.ResourceTypeID">Edit</a>
+                    </div>
+                    <div class="td">
+                        <button type="submit">Delete</button>
+                    </div>
+
+            </form>
+
+        }
+    }
+
+</div>

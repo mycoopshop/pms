@@ -1,0 +1,35 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+
+<link href="~/css/hotel-datepicker.css" rel="stylesheet" />
+<script src="~/js/hotel-datepicker.js" type="module">
+</script>
+<script src="~/js/hotel-datepicker.min.js"></script>
+<script src="~/js/fecha.js"></script>
+<h2>Index</h2>
+<h3>Demo</h3>
+<input id="input-id" type="text">
+<script>
+    var input = document.getElementById('input-id');
+    var datepicker = new HotelDatepicker(input);
+
+</script>
+<div class="demo__item">
+    <div class="demo__input" id="demo1-input-parent">
+        <input type="text" value="">
+    </div>
+    <p class="demo__description">Default settings with a predefined value in the input</p>
+    <div class="demo__config">
+        <pre id="pre-demo1">
+var input = document.getElementById('input-id');
+var datepicker = new HotelDatepicker(input);
+				</pre>
+    </div>
+
+
+</div>
+

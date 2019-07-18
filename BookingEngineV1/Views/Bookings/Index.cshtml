@@ -1,0 +1,240 @@
+﻿@model BookingViewModel
+
+<h3>Bookings</h3>
+
+<a asp-controller="Bookings" asp-action="CreateBooking">Create New Booking</a>
+<form asp-action="Index" name="Bookings" method="get">
+    <div class="table">
+        <div class="tr">
+            <div class="td">
+                <label asp-for="@Model.BookingSelection.DateOfBooking"></label>
+            </div>
+            <div class="td">
+                <select name="DateOfBookingOperator">
+                    @foreach (string s in Model.Operators)
+                    {
+                        @if (s == Model.BookingSelection.DateOfBookingOperator)
+                        {
+                            <option selected value="@s">@Model.BookingSelection.DateOfBookingOperator</option>
+
+                        }
+                        else
+                        {
+                            <option value="@s">@s</option>
+                        }
+                    }
+                </select>
+            </div>
+            <div class="td">
+                <input type="date" name="DateOfBooking" value="@Model.BookingSelection.DateOfBooking.ToString("yyyy-MM-dd")" />
+            </div>
+        </div>
+        <div class="tr">
+            <div class="td"><label asp-for="@Model.BookingSelection.DateOfArrival"></label></div>
+            <div class="td">
+                <select name="DateOfArrivalOperator">
+                    @foreach (string s in Model.Operators)
+                    {
+                        @if (s == Model.BookingSelection.DateOfArrivalOperator)
+                        {
+                            <option selected value="@s">@Model.BookingSelection.DateOfArrivalOperator</option>
+
+                        }
+                        else
+                        {
+                            <option value="@s">@s</option>
+                        }
+                    }
+                </select>
+            </div>
+            <div class="td"><input type="date" name="DateOfArrival" value="@Model.BookingSelection.DateOfArrival.ToString("yyyy-MM-dd")" /></div>
+        </div>
+        <div class="tr">
+            <div class="td"><label asp-for="@Model.BookingSelection.DateOfDeparture"></label></div>
+            <div class="td">
+                <select name="DateOfDepartureOperator">
+                    @foreach (string s in Model.Operators)
+                    {
+                        @if (s == Model.BookingSelection.DateOfDepartureOperator)
+                        {
+                            <option selected value="@s">@Model.BookingSelection.DateOfDepartureOperator</option>
+
+                        }
+                        else
+                        {
+                            <option value="@s">@s</option>
+                        }
+                    }
+                </select>
+            </div>
+            <div class="td"><input type="date" name="DateOfDeparture" value="@Model.BookingSelection.DateOfDeparture.ToString("yyyy-MM-dd")" /></div>
+        </div>
+        <div class="tr">
+            <div class="td"><label asp-for="@Model.BookingSelection.ChannelID">Channel</label></div>
+            <div class="td"></div>
+            <div class="td">
+                <select name="ChannelID">
+                    <option value=""></option>
+                    @foreach (Channel ch in Model.Channels)
+                    {
+                        @if (ch.ChannelID == Model.BookingSelection.ChannelID)
+                        {
+                            <option selected value="@ch.ChannelID">@ch.Name</option>
+
+                        }
+                        else
+                        {
+                            <option value="@ch.ChannelID">@ch.Name</option>
+                        }
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="tr">
+            <div class="td"><label asp-for="@Model.BookingSelection.CompanyID">Company</label></div>
+            <div class="td"></div>
+            <div class="td"><input type="text" name="companyID" value="@Model.BookingSelection.CompanyID" /></div>
+        </div>
+        <div class="tr">
+            <div class="td"><label asp-for="@Model.BookingSelection.RateCompositionID">Rate</label></div>
+            <div class="td"></div>
+            <div class="td">
+                <select name="RateCompositionID">
+                    <option value=""></option>
+                    @foreach (RateComposition rc in Model.RateCompositions)
+                    {
+                        @if (rc.RateCompositionID == Model.BookingSelection.RateCompositionID)
+                        {
+                            <option selected value="@rc.RateCompositionID">@rc.Name</option>
+
+                        }
+                        else
+                        {
+                            <option value="@rc.RateCompositionID">@rc.Name</option>
+                        }
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="tr">
+            <div class="td"><label asp-for="@Model.BookingSelection.ResourceTypeID">Room type</label></div>
+            <div class="td"></div>
+            <div class="td">
+                <select name="ResourceTypeID">
+                    <option value=""></option>
+                    @foreach (ResourceType rt in Model.ResourceTypes)
+                    {
+
+                        @if (rt.ResourceTypeID == Model.BookingSelection.ResourceTypeID)
+                        {
+                            <option selected value="@rt.ResourceTypeID">@rt.Name</option>
+
+                        }
+                        else
+                        {
+                            <option value="@rt.ResourceTypeID">@rt.Name</option>
+                        }
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="tr">
+            <div class="td"><label asp-for="@Model.BookingSelection.GuestNames"></label></div>
+            <div class="td"></div>
+            <div class="td"><input type="text" name="GuestNames" value="@Model.BookingSelection.GuestNames" /></div>
+        </div>
+        <div class="tr">
+            <div class="td"><button type="submit">Search</button></div>
+        </div>
+    </div>
+</form>
+
+
+<table class="table">
+    <tr class="tr">
+        <td class="td">BookingIDPMS</td>
+        <td class="td">Status</td>
+        <td class="td">CompanyID</td>
+        <td class="td">ChannelID</td>
+        <td class="td">Channel</td>
+        <td class="td">Guest names</td>
+        <td class="td">DateOfBooking</td>
+        <td class="td">UserID</td>
+        <td class="td">TotalPrice</td>
+        <td>BookingItemID</td>
+        <td class="td">DateOfArrival</td>
+        <td class="td">DateOfDeparture</td>
+        <td>Room type</td>
+        <td>Rate composition</td>
+        <td>Number of units</td>
+        <td>Price</td>
+    </tr>
+
+
+    @foreach (Booking b in Model.Bookings)
+    {
+        int itemCount = 0;
+        @foreach (BookingRoomStay bi in b.BookingRoomStays)
+        {
+            int rowSpan = b.BookingRoomStays.Count();
+            itemCount++;
+            <tr>
+                @*BOOKING INFORMATION*@
+                @if (itemCount == 1)
+                {
+                    <td rowspan="@rowSpan">
+                        @b.BookingIDPMS &nbsp;
+                        <a asp-controller="Bookings" asp-action="GetBookingDetails" asp-route-bookingIDPMS="@b.BookingIDPMS">Details</a>
+                        <a asp-controller="Bookings" asp-action="EditBooking" asp-route-bookingIDPMS="@b.BookingIDPMS">Edit</a>
+                    </td>
+                    <td rowspan="@rowSpan">@b.Status</td>
+                    <td rowspan="@rowSpan">@b.CompanyID</td>
+                    <td rowspan="@rowSpan">@b.ChannelID</td>
+                    <td rowspan="@rowSpan">@b.Channel.Name </td>
+                    <td rowspan="@rowSpan">@b.GuestNames</td>
+                    <td rowspan="@rowSpan">@b.DateOfBooking.ToShortDateString()</td>
+                    <td rowspan="@rowSpan">@b.UserID</td>
+                    <td rowspan="@rowSpan">@b.PriceAfterTax.ToString("#,##0") </td>
+                }
+                @* BOOKING ITEM INFORMAION*@
+                <td>@bi.BookingRoomStayId</td>
+                <td>@bi.DateOfArrival.ToShortDateString()</td>
+                <td>@bi.DateOfDeparture.ToShortDateString()</td>
+                <td>@bi.ResourceType.Name</td>
+                <td>@bi.RateComposition.Name</td>
+                <td>@bi.NumberOfUnits</td>
+                <td>@bi.PriceAfterTax.ToString("#,##0")</td>
+                <td>
+                    <div class="table">
+                        @foreach (BookingRoomStayDay bid in bi.BookingRoomStayDays)
+                        {
+
+                            <div class="tr">
+                                <div class="td">@bid.DateEffective.ToShortDateString()</div>
+                                <div class="td">@bid.PriceAfterTaxPerUnit</div>
+                            </div>
+                        }
+                    </div>
+                </td>
+                <td><a asp-action="ArrivalForm" asp-route-bookingRoomStayId="@bi.BookingRoomStayId">Arrival form</a> </td>
+            </tr>
+
+
+        }
+
+        @*<td class="td">
+                <form class="tr" asp-action="DeleteBooking" method="post">
+                    <input type="hidden" name="bookingIDPMS" value="@b.BookingIDPMS" />
+                    <a asp-action="EditBooking" asp-route-bookingIDPMS="@b.BookingIDPMS">Edit</a>
+                    <button type="submit">Delete</button>
+                </form>
+            </td>*@
+
+
+    }
+    <tr class="tr">
+        <td>
+            <a asp-action="EditBooking">Create</a>
+        </td>
+    </tr>
+</table>

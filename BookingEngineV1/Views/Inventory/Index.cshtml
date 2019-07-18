@@ -1,0 +1,60 @@
+﻿@model List<ResourceStock>
+
+
+<h3 class="p-2 bg-primary text-white text-center">Room inventory</h3>
+
+
+<table>
+    @if (ViewBag.UpdateAll != true)
+    {
+        <tr>
+            <th> ResourceStockID</th>
+            <th> ResourceID</th>
+            <th> Name</th>
+            <th> DateFrom</th>
+            <th> DateTo</th>
+
+        </tr>
+
+        @if (Model.Count() == 0)
+        {
+            <tr>
+                <td>No Data</td>
+            </tr>
+
+        }
+        else
+        {
+            @foreach (ResourceStock rs in Model)
+            {
+                <tr>
+                    <td>@rs.ResourceStockID</td>
+                    <td>@rs.ResourceID </td>
+                    <td>@rs.Resource.Name</td>
+                    <td>@rs.DateFrom.ToShortDateString() </td>
+                    <td>@rs.DateTo.ToShortDateString()</td>
+                    <td>
+                        <a asp-action="UpdateResourceStock" asp-route-resourceStockID="@rs.ResourceStockID">Edit</a>
+                    </td>
+                    <td class="td">
+                        <form asp-action="DeleteResourceStock" method="post">
+                            <input type="hidden" name="ResourceStockID" value="@rs.ResourceStockID" />
+                            <button type="submit">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+
+
+            }
+
+        }
+
+
+    }
+
+</table>
+
+<div class="text-center">
+    <a asp-action="AddResourceStock" asp-route-key="0" class="btn btn-primary">Add</a>
+</div>
+

@@ -1,0 +1,78 @@
+﻿@using BookingEngineV1.Models.ViewModels
+
+@model ShopDisplay
+
+<link href="~/css/hotel-datepicker.css" rel="stylesheet" />
+<script src="~/js/hotel-datepicker.js" type="module">
+</script>
+<script src="~/js/hotel-datepicker.min.js"></script>
+<script src="~/js/fecha.js"></script>
+
+@{
+    DateTime dateOfArrivalDefault;
+    DateTime dateOfDepartureDefault;
+
+    if (Model == null)
+    {
+        dateOfArrivalDefault = DateTime.Parse("2018-05-03");
+        dateOfDepartureDefault = DateTime.Parse("2018-05-05");
+
+    }
+    else
+    {
+        dateOfArrivalDefault = Model.Inquiry.DateOfArrival;
+        dateOfDepartureDefault = Model.Inquiry.DateOfDeparture;
+
+    }
+}
+
+<div>
+    <form asp-action="CheckAvailability" asp-controller="Shop" method="get">
+        <input id="input-id" type="text">
+        <input name="dateOfArrival" type="date" value="@dateOfArrivalDefault.ToString("yyyy-MM-dd")" />
+        <input name="dateOfDeparture" type="date" value="@dateOfDepartureDefault.ToString("yyyy-MM-dd")" />
+        <input type="hidden" name="companyID" value="B68162" />
+        <input type="hidden" name="channelID" value="100" />
+        <button type="submit">Check availability</button>
+    </form>
+
+</div>
+
+<script>
+    var input = document.getElementById('input-id');
+    //var options = { hoveringTooltip: function (nights, startTime, hoverTime) { return nights; } };
+    var datepicker = new HotelDatepicker(input, {
+        hoveringTooltip: function (nights, startTime, hoverTime) {
+            return 9;
+        }
+    });
+
+</script>
+
+
+@if (Model != null)
+{
+    <div style="overflow-x:auto;">
+        @Html.Partial("_ShopOfferedResourceTypes", Model);
+    </div>
+}
+
+
+
+@section Sidebar_right
+    {
+    @if (Model != null)
+    {
+        if (Model.Cart != null)
+        {
+            if (Model.Cart.CartItems != null && Model.Cart.CartItems.Count > 0)
+            {
+                @Html.Partial("_CartQuickSummary", Model)
+            }
+
+        }
+    }
+}
+
+
+

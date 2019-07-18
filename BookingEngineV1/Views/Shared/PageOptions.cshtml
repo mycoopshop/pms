@@ -1,0 +1,58 @@
+﻿<div class="table">
+    <div class="tr">
+        <div class="td"></div>
+        <div class="td"><label>Search</label></div>
+        <div class="td">
+            <select form="pageform" name="options.searchpropertyname" class="form-control">
+                @foreach (string s in ViewBag.searches as string[])
+                {
+                    <option value="@s" selected="@(Model.Options.SearchPropertyName == s)">
+                        @(s.IndexOf('.')== -1 ? s : s.Substring(0,s.IndexOf('.')))
+                    </option>
+
+                }
+            </select>
+        </div>
+        <div class="td">
+            <input form="pageform" class="form-control" name="options.searchterm" value="@Model.Options.SearchTerm" />
+        </div>
+        <div class="td">
+            <button form="pageform" class="btn" type="submit">Search</button>
+        </div>
+        <div class="td"></div>
+    </div>
+    <div class="tr">
+        <div class="td"></div>
+        <div class="td"><label class="col-form-label">Sort</label></div>
+        <div class="td">
+            <select form="pageform" name="options.OrderPropertyName" class="form-control">
+                @foreach (string s in ViewBag.sorts as string[])
+                {
+                    <option value="@s" selected ="@(Model.Options.OrderPropertyName == s)">
+                         @(s.IndexOf('.')==-1 ? s : s.Substring(0, s.IndexOf('.')))
+                    </option>
+
+                }
+            </select>
+        </div>
+        <div class="td">
+            <input form="pageform" type="checkbox" name="Options.DescendingOrder" id="Options.DesdendingOrder"
+                   class="form-check-input" value="true" checked="@Model.Options.DescendingOrder" />
+            <label class="form-check-label">Descending Order</label>
+        </div>
+        <div class="td">
+            <button form="pageform" class="btn" type="submit">Sort</button>
+        </div>
+    </div>
+    <div class="tr">
+        <div class="td">Filter</div>
+        <div class="td">
+            <input form="pageform" name="channelID" value="@ViewBag.ChannelID"/>
+        </div>
+        <div class="td">
+            <button form="pageform" type="submit">Filter</button>
+        </div>
+    </div>
+  
+
+</div>

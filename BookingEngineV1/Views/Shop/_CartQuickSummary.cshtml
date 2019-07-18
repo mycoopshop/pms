@@ -1,0 +1,86 @@
+﻿@model ShopDisplay
+@*if 1 item in cart:
+    Summary shows:
+        ResourceType
+        NumberOfUnits
+        NumberOfNights
+        DateOfArrival
+        DateOfDeparture
+        PricePerNight
+        Total Price
+
+    if >1 items in cart:
+    Summary shows:
+        NumberOfItems (Roomtypes)
+        NumberOfNights
+        DateOfArrival
+        DateOfDeparture
+        Total Price*@
+
+@{
+    Cart c = Model.Cart;
+    int numberOfNights = ((TimeSpan)(c.DateOfDeparture - c.DateOfArrival)).Days;
+
+    if (c.CartItems.Count == 1)
+    {
+        CartItem ci = c.CartItems[0];
+        <div class="table">
+            <div class="tr">
+                <div class="td">@ci.ResourceType.Name</div>
+                <div class="td">@ci.NumberOfUnits</div>
+            </div>
+            <div class="tr">
+                <div class="td"># of Nights</div>
+                <div class="=td">@numberOfNights</div>
+            </div>
+            <div class="tr">
+                <div class="td">Date of arrival:</div>
+                <div class="td">@c.DateOfArrival.ToString("yyyy-MM-dd")</div>
+            </div>
+            <div class="tr">
+                <div class="td">Date of departure:</div>
+                <div class="td">@c.DateOfDeparture.ToString("yyyy-MM-dd")</div>
+            </div>
+            <div class="tr">
+                <div class="td">Price per night:</div>
+                @*<div class="td">@(c.PriceAfterTax / numberOfNights) </div>*@
+            </div>
+            <div class="tr">
+                <div class="td">Total price FROM VIEW MODEL:</div>
+                <div class="td">@c.PriceAfterTax</div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="table">
+            <div class="tr">
+                <div class="td"># of rooms selected </div>
+                <div class="td">@c.CartItems.Count</div>
+            </div>
+            <div class="tr">
+                <div class="=td"># of nights</div>
+                <div class="td">@numberOfNights</div>
+            </div>
+            <div class="tr">
+                <div class="td">Date of arrival:</div>
+                <div class="td">@c.DateOfArrival.ToString("yyyy-MM-dd")</div>
+            </div>
+            <div class="tr">
+                <div class="td">Date of departure:</div>
+                <div class="td">@c.DateOfDeparture.ToString("yyyy-MM-dd")</div>
+            </div>
+
+            <div class="tr">
+                <div class="td">Total price:</div>
+                @*<div class="td">@c.PriceAfterTax</div>*@
+            </div>
+        </div>
+    }
+    <div class="tr">
+        <div class="td">
+            <a asp-action="ProceedToReservation" asp-controller="Shop" asp-route-cartID="@c.CartID.ToString()">I'll reserve</a>
+        </div>
+    </div>
+}
+

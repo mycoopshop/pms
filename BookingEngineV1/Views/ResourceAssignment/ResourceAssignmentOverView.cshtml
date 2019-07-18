@@ -1,0 +1,69 @@
+﻿@model List<ResourceAssignmentOverViewViewModel>
+@{
+    ViewData["Title"] = "ResourceAssignmentOverView";
+}
+
+<h2>ResourceAssignmentOverView</h2>
+
+<form asp-action="ResourceAssignmentOverView" name="ResourceAssignmentOverView" method="get">
+    <input type="date" name="dateEffective" value="@Model[0].DateEffective.ToString("yyyy-MM-dd")" />
+    <input type="hidden" name="companyID" value="B68162" />
+    <button type="submit">Search</button>
+</form>
+
+<div class="table">
+    <div class="tr">
+        <div class="td">Room</div>
+        @foreach (ResourceAssignmentOverViewViewModel raModel in Model)
+        {
+        <div class="td">@raModel.DateEffective.ToString("yyyy.MM.dd")</div>
+        }
+    </div>
+    @foreach (ResourceType rt in Model[0].ResourceTypes)
+    {
+        <div class="tr">
+            <div class="td">@rt.Name</div>
+        </div>
+        @foreach(Resource r in rt.Resources)
+        {
+        <div class="tr">
+            <div class="td">@r.Name</div>
+
+            @foreach (ResourceAssignmentOverViewViewModel raModel in Model)
+            {
+                <div class="td">
+                    @*@if (raModel.DateEffectiveBookingItemResourceAssignments.Where(x => x.ResourceID == r.ResourceID).SingleOrDefault() != null)
+                    {
+                        BookingItem bi = raModel.DateEffectiveBookingItemResourceAssignments.Where(x => x.ResourceID == r.ResourceID).SingleOrDefault().BookingItem;*@
+                    <div class="tooltip">
+                        @*<span>@bi.Booking.GuestNames</span>*@
+                       
+
+                        <div class="tooltiptext">
+                         <table>
+                             <tr>
+                                 <td>Date of booking:</td>
+                                 @*<td>@bi.Booking.DateOfBooking.ToString("yyyy-MM-dd")</td>*@
+                             </tr>
+                             <tr>
+                                 <td>Number of rooms:</td>
+                                 @*<td>@bi.NumberOfUnits</td>*@
+                             </tr>
+                             <tr>
+                                 <td>Number of nights</td>
+                                 @*<td>@bi.NumberOfNights.ToString("#0")</td>*@
+                             </tr>
+                         </table>  
+                        </div>
+                    </div>
+                    @*}*@
+                    
+                </div>
+            }
+                
+           </div>
+        }
+
+    }
+</div>
+

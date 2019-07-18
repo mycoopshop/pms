@@ -1,0 +1,134 @@
+﻿@model Cart
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+
+@foreach (CartItem ci in Model.CartItems)
+{
+    <h3><span>@ci.NumberOfUnits &nbsp;</span>@ci.ResourceType.Name</h3>
+
+    <div class="table">
+        <div class="tr">
+            <div class="td">Amount per room</div>
+            @foreach (CartItemDay ciDay in ci.CartItemDays)
+            {
+                <div class="td">@ciDay.DateEffective.ToString("dd.MM.yyyy")</div>
+            }
+            <div class="td">Total</div>
+        </div>
+
+        <div class="tr">
+            <div class="td">Base or derived price</div>
+            @foreach (CartItemDay ciDay in ci.CartItemDays)
+            {
+                <div class="td">@ciDay.BaseOrDerivedPricePerUnit</div>
+            }
+            <div class="td">@ci.BaseOrDerivedPricePerUnit</div>
+        </div>
+
+        <div class="tr">
+            <div class="td">Early booking promotion</div>
+            @foreach (CartItemDay ciDay in ci.CartItemDays)
+            {
+                    <div class="td">@ciDay.EarlyBookingPromotionPerUnit.ToString("f2") </div>                
+            }
+            <div class="td">@ci.EarlyBookingPromotionPerUnit</div>
+        </div>
+
+        <div class="tr">
+            <div class="td">Last minute promotion</div>
+            @foreach (CartItemDay ciDay in ci.CartItemDays)
+            {
+                <div class="td">@ciDay.LastMinutePromotionPerUnit.ToString("f2") </div>
+            }
+            <div class="td">@ci.LastMinutePromotionPerUnit</div>
+        </div>
+
+
+        <div class="tr">
+            <div class="td">Long stay promotion</div>
+            @foreach (CartItemDay ciDay in ci.CartItemDays)
+            {
+                <div class="td">@ciDay.LongStayPromotionPerUnit.ToString("f")</div>
+            }
+            <div class="td">@ci.LongStayPromotionPerUnit</div>
+        </div>
+
+        <div class="tr">
+            <div class="td">Total promotion</div>
+            @foreach (CartItemDay ciDay in ci.CartItemDays)
+            {
+                <div class="td">@ciDay.TotalPromotionPerUnit.ToString("f2")</div>
+            }
+            <div class="td">@ci.TotalPromotionPerUnit</div>
+        </div>
+
+        <div class="tr">
+            <div class="td">Price before tax</div>
+            @foreach (CartItemDay ciDay in ci.CartItemDays)
+            {
+                <div class="td">@ciDay.PriceBeforeTaxPerUnit.ToString("f2")</div>
+            }
+            <div class="td">@ci.PriceBeforeTaxPerUnit.ToString("f2")</div>
+        </div>
+
+        <div class="tr">
+            <div class="td">VAT</div>
+            @foreach (CartItemDay ciDay in ci.CartItemDays)
+            {
+                <div class="td">@ciDay.VATPerUnit.ToString("f2")</div>
+            }
+            <div class="td">@ci.VATPerUnit.ToString("f2")</div>
+        </div>
+
+        <div class="tr">
+            <div class="td">Price after tax</div>
+            @foreach (CartItemDay ciDay in ci.CartItemDays)
+            {
+                <div class="td">@ciDay.PriceAfterTaxPerUnit</div>
+            }
+            <div class="td">@ci.PriceAfterTaxPerUnit</div>
+        </div>
+        <div class="tr">
+            <div class="td">
+            </div>
+        </div>
+        <div class="tr">
+            <div class="td">@ci.NumberOfUnits<span>&nbsp;room(s)</span></div>
+        </div>
+
+        <div class="tr">
+            <div class="td">Total Price after tax</div>
+            @foreach (CartItemDay ciDay in ci.CartItemDays)
+            {
+                <div class="td">@ciDay.PriceAfterTax</div>
+            }
+            <div class="td">@ci.PriceAfterTax</div>
+        </div>
+    </div>
+}
+
+<h3>Total Booking</h3>
+<div class="table">
+    <div class="tr">
+        <div class="td">Base or derived price</div>
+        <div class="td">@Model.BaseOrDerivedPrice</div>
+    </div>
+    <div class="tr">
+        <div class="td">Total Promotion</div>
+        <div class="td">@Model.TotalPromotion</div>
+    </div>
+    <div class="tr">
+        <div class="td">Price before tax</div>
+        <div class="td">@Model.PriceBeforeTax</div>
+    </div>
+    <div class="tr">
+        <div class="td">VAT @Model.VATPercentage.ToString("#0.00%")</div>
+        <div class="td">@Model.VAT</div>
+    </div>
+    <div class="tr">
+        <div class="td">Price after tax</div>
+        <div class="td">@Model.PriceAfterTax</div>
+    </div>
+</div>

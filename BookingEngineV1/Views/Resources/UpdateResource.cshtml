@@ -1,0 +1,65 @@
+﻿@model  Resource
+
+<h2>Update room</h2>
+
+<form asp-action="UpdateResource" method="post">
+    <table>
+        <tr>
+            <td><label asp-for="ResourceID">ResourceID</label></td>
+            <td><input asp-for="ResourceID" readonly /></td>
+        </tr>
+        <tr>
+            <td>
+                <label asp-for="CompanyID">CompanyID</label>
+            </td>
+            <td><input asp-for="CompanyID" /></td>
+        </tr>
+        <tr>
+            <td>
+                <label asp-for="Name">Name</label>
+            </td>
+            <td>
+                <input asp-for="Name" />
+            </td>
+        </tr>
+        <tr>
+            <td><label asp-for="ResourceType">ResourceType</label></td>
+            <td>
+                <select asp-for="ResourceTypeID">
+                    @if (Model.ResourceID == 0)
+                    {
+                        <option disabled selected>Choose ResourceType</option>
+
+                    }
+                    @foreach (ResourceType rt in ViewBag.ResourceTypes)
+                    {
+                        <option selected=@(Model.ResourceTypeID == rt.ResourceTypeID) value="@rt.ResourceTypeID">@rt.Name</option>
+
+                    }
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td><label asp-for="BedType">Bed Type</label></td>
+            <td><input asp-for="BedType" /></td>
+        </tr>
+        <tr>
+            <td><label asp-for="CapacityMax">Capacity max</label></td>
+            <td><input asp-for="CapacityMax" /></td>
+        </tr>
+        <tr>
+            <td><label asp-for="Floor">Floor</label></td>
+            <td><input asp-for="Floor" /></td>
+        </tr>
+        <tr>
+            <td><label asp-for="SizeInM2">Size</label></td>
+            <td><input asp-for="SizeInM2" /></td>
+        </tr>
+        <tr>
+            <td><button type="submit">Save</button></td>
+            <td><a asp-action="Index">Cancel</a></td>
+        </tr>
+   
+    </table>
+</form>
+

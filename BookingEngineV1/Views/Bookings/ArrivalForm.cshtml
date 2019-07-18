@@ -1,0 +1,115 @@
+﻿@model ArrivalFormViewModel
+
+
+<h3>Ankunftsschein – Bulletins d ‘arrivèe – Arrivals form</h3>
+
+<table b>
+    <colgroup>
+        <col width="150" />
+        <col width="230" />
+        <col width="100" />
+        <col width="200" />
+    </colgroup>
+    <thead>
+    </thead>
+    <tbody>
+
+        <tr>
+            <td>Name / Firstname</td>
+            <td>@Model.BookingRoomStay.GuestNames</td>
+            <td>Nationality</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>&nbsp;</td>
+            <td></td>
+            <td>Date of birth</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Number plate</td>
+            <td>&nbsp;</td>
+            <td colspan="1" rowspan="8"><img style="display: block; text-align: center;" src="~/images/Logo_small.png" /></td>
+        </tr>
+        <tr>
+            <td>&nbsp;</td>
+        </tr>
+        <tr>
+            <td>Date of Arrival</td>
+            <td>@Model.BookingRoomStay.DateOfArrival.ToString("dd.MM.yyyy")</td>
+        </tr>
+        <tr>
+            <td>Date of departure</td>
+            <td>@Model.BookingRoomStay.DateOfDeparture.ToString("dd.MM.yyyy")</td>
+        </tr>
+        <tr>
+            <td>Number of nights</td>
+            @{BookingRoomStay rs = new BookingRoomStay();
+                rs = Model.BookingRoomStay;
+            }
+
+            <td>@((rs.DateOfDeparture - rs.DateOfArrival).TotalDays.ToString("#0"))</td>
+        </tr>
+        <tr><td>&nbsp;</td></tr>
+        <tr>
+            <td>Home address</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Post code</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>City</td>
+            <td></td>
+            <td style="font-size: 20px;" align="center" colspan="2" rowspan="13">Save 5% <p>Book with us!</p><a href="http://gasthaus-steinbock.ch">www.gasthaus-steinbock.ch</a></td>
+
+        </tr>
+        <tr>
+            <td>Country</td>
+            <td>@Model.Booking.CountryID</td>
+        </tr>
+        <tr>
+            <td>&nbsp;</td>
+        </tr>
+        <tr>
+            <td>Phone</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Email</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Room number</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Number of guests</td>
+            <td>@Model.BookingRoomStay.NumberOfGuests</td>
+        </tr>
+        <tr>
+            <td>&nbsp;</td>
+        </tr>
+        <tr>
+            <td>Price of Stay</td>
+            <td>@Model.BookingRoomStay.PricePerStay</td>
+        </tr>
+        <tr>
+            <td>City tax</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Total Price</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>&nbsp;</td>
+        </tr>
+        <tr>
+            <td>Signature</td>
+            <td>&nbsp;</td>
+        </tr>
+    </tbody>
+</table>
+

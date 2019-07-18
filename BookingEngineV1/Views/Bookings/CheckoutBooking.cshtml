@@ -1,0 +1,15 @@
+﻿@model BookingEngineV1.Models.Entities.Cart
+
+@if (Model != null)
+{
+    if (Model.CartItems != null && Model.CartItems.Count > 0)
+    {
+        @Html.Partial("_BookingSummary", Model)
+
+        <form asp-action="Checkout" asp-controller="Bookings" method="post">
+            <input type="text" name="cartID" value="@Model.CartID" />
+            <button type="submit">Checkout</button>
+        </form>
+    }
+
+}

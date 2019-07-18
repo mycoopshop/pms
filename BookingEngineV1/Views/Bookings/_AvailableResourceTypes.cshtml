@@ -1,0 +1,141 @@
+﻿@model CreateBookingViewModel
+
+
+<div style="overflow-x:auto;">
+    <table border="0">
+        <thead>
+            <tr>
+                <th align="left">Room type</th>
+                <th align="left">Rate </th>
+                @*<th align="left">Cancellation Policy</th>*@
+                <th>Base price</th>
+                <th>Early booking discount</th>
+                <th>Last Minute discount</th>
+                <th>Long Stay discount</th>
+                <th>Total Price</th>
+                <th>Price per Night</th>
+                <th>Select Room</th>
+            </tr>
+        </thead>
+
+
+        <tbody>
+            @foreach (OfferedResourceType rt in Model.OfferedResourceTypes)
+            {
+                <tr class="tr">
+                    <td rowspan="@(rt.OfferedRateCompositions.Count()+1)" align="left">@rt.ResourceTypeName </td>
+                </tr>
+
+                int counter = 0;
+                @foreach (OfferedRateComposition rc in rt.OfferedRateCompositions)
+                {
+                    <tr>
+                        <td>@rc.RateCompositionName </td>
+                        @* <td class="td">@rc.CancellationPolicyName</td>*@
+                        <td align="right">@rc.TotalPriceBeforePromotion.ToString("f2")</td>
+                        <td align="right">@(rc.TotalEarlyBookingPromotion != 0 ? rc.TotalEarlyBookingPromotion.ToString("f2") : "")</td>
+                        <td align="right">@(rc.TotalLastMinutePromotion != 0 ? rc.TotalLastMinutePromotion.ToString("f2") : "")</td>
+                        <td align="right">@(rc.TotalLongStayPromotion != 0 ? rc.TotalLongStayPromotion.ToString("f2") : "") </td>
+                        <td align="right">@rc.TotalPrice.ToString("f2")</td>
+                        <td align="right">@rc.AveragePricePerUnit.ToString("f2")</td>
+                        <td align="center">
+                            @if (rt.UnitsLeftForSale == 0)
+                            {<span style="color: red;">sold out</span>}
+                            else
+                            {
+                                int numberOfUnitsInCart = 0;
+                                if (Model.Cart != null)
+                                {
+                                    var cartItem = Model.Cart.CartItems.FirstOrDefault(x => x.RateCompositionID == rc.RateCompositionID && x.ResourceTypeID == rc.ResourceTypeID);
+                                    if (cartItem != null)
+                                    {
+                                        numberOfUnitsInCart = cartItem.NumberOfUnits;
+                                    }
+                                }
+
+                                List<SelectListItem> myList = new List<SelectListItem>();
+                                for (int i = 0; i <= rt.UnitsLeftForSale; i++)
+                                {
+                                    SelectListItem li = new SelectListItem();
+                                    li.Text = i.ToString();
+                                    li.Value = i.ToString();
+                                    bool sel = (i == numberOfUnitsInCart);
+                                    li.Selected = sel;
+                                    myList.Add(li);
+                                }
+
+                                <form name="@rc.RateCompositionID" asp-action="ProcessBookingSelection" method="post">
+                                    @if (Model.Cart != null)
+                                    {
+                                        <input type="hidden" name="cartID" value="@Model.Cart.CartID" />
+                                        var ci = (null ?? Model.Cart.CartItems.Where(x => x.ResourceTypeID == rc.ResourceTypeID && x.RateCompositionID == rc.RateCompositionID).SingleOrDefault());
+                                        long ciID;
+                                        int rtID;
+                                        if (ci == null)
+                                        {
+                                            ciID = 0;
+                                            rtID = 0;
+                                        }
+                                        else
+                                        {
+                                            ciID = ci.CartItemID;
+                                            rtID = ci.ResourceTypeID;
+                                        }
+                                        <input type="hidden" name="cartItemID" value="@ciID" />
+                                        <input type="hidden" name="recourceTypeID" value="@rtID" />
+                                    }
+                                    <input type="hidden" name="inquiryID" value="@Model.Inquiry.InquiryID" />
+                                    <input type="hidden" name="companyID" value="@Model.Inquiry.CompanyID" />
+                                    <input type="hidden" name="channelID" value="@Model.Inquiry.ChannelID" />
+                                    <input type="hidden" name="dateOfArrival" value="@Model.Inquiry.DateOfArrival" />
+                                    <input type="hidden" name="dateOfDeparture" value="@Model.Inquiry.DateOfDeparture" />
+                                    <input type="hidden" name="resourceTypeID" value="@rt.ResourceTypeID" />
+                                    <input type="hidden" name="companyID" value="@rt.CompanyID" />
+                                    <input type="hidden" name="rateCompositionID" value="@rc.RateCompositionID" />
+                                    <input type="hidden" name="pricePerUnit" value="@rc.TotalPrice" />
+                                    <input type="hidden" name="numberOfItems" value="@ViewBag.NumberOfItems" />
+                                    <input type="hidden" id="@("numberOfUnits"+ rc.ResourceTypeID + rc.RateCompositionID)" name="numberOfUnits" value="@numberOfUnitsInCart" />
+
+                                    @Html.DropDownList("Select" + rc.ResourceTypeID + rc.RateCompositionID, myList, "", new { @onchange = "RoomSelectionPostBack(this," + rc.ResourceTypeID + "," + rc.RateCompositionID + ");", @style = "width:60px" })
+                                    @*Html.DropDownList("Select" + rc.RateCompositionID, myList, "", new { @onchange = "this.form.submit();", @style = "width:60px" })*@
+                                </form>
+                            }
+                        </td>
+                    </tr>
+                    counter++;
+                }
+            }
+        </tbody>
+        <tfoot>
+            <tr><td><br /></td></tr>
+            <tr>
+                <td colspan="7" align="right">Total Price:</td>
+                <td>@ViewBag.NumberOfItems</td>
+                <td align="right">108.10</td>
+            </tr>
+            <tr>
+                <td colspan="9" align="right">
+                    <form asp-action="Checkout" asp-controller="Cart" method="post">
+                        <button type="submit">I will book</button>
+                    </form>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+</div>
+<script>
+    function RoomSelectionPostBack(selectlist, rt, rc)
+{
+        var select =selectlist;
+        var input = document.getElementById("numberOfUnits" + rt + rc);
+        var selValue = select.options[select.selectedIndex].value;
+        input.value = selValue;
+        input.form.submit();
+
+}
+</script>
+
+
+
+
+

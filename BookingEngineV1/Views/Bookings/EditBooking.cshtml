@@ -1,0 +1,100 @@
+﻿@model EditBookingViewModel
+
+<h3>Edit Booking</h3>
+
+
+
+@foreach (CartItem ci in Model.Cart.CartItems)
+{
+<form method="post" asp-action="UpdateBookingItem" asp-controller="Bookings" name="@ci.CartItemID">
+    <div class="table">
+        <div class="tr">
+            <div class="td">BookingItemID</div>
+            <div class="td"><label asp-for="@ci.CartItemID" readonly>@ci.CartItemID</label></div>
+        </div>
+        <div class="tr">
+            <div class="td">ResourceTypeID</div>
+            <div class="td"><label asp-for="@ci.ResourceTypeID">@ci.ResourceTypeID</label></div>
+        </div>
+        <div class="tr">
+            <div class="td">ResourceType</div>
+            <select asp-for=@ci.ResourceType>
+
+                @foreach (ResourceType rt in Model.ResourceTypes)
+                {
+                    @if (rt.ResourceTypeID == ci.ResourceTypeID)
+                    {
+                        <option selected value="@rt.ResourceTypeID">@rt.Name</option>
+
+                    }
+                    else
+                    {
+                        <option value="@rt.ResourceTypeID">@rt.Name</option>
+                    }
+                }
+            </select>
+        </div>
+        <div class="tr">
+            <div class="td">RateCompositionID</div>
+            <div class="td"><label asp-for="@ci.RateCompositionID">@ci.RateCompositionID </label></div>
+        </div>
+        <div class="tr">
+            <div class="td">RateComposition</div>
+            <select name="RateCompositionID" asp-for="@ci.RateComposition">
+
+                @foreach (RateComposition rc in Model.RateCompositions)
+                {
+                    @if (rc.RateCompositionID == ci.RateCompositionID)
+                    {
+                        <option selected value="@rc.RateCompositionID">@rc.Name</option>
+
+                    }
+                    else
+                    {
+                        <option value="@rc.RateCompositionID">@rc.Name</option>
+                    }
+                }
+            </select>
+
+        </div>
+        <div class="tr">
+            <div class="td">NumberOfUnits</div>
+            <div class="td"><input type="number" asp-for="@ci.NumberOfUnits" /></div>
+        </div>
+        <div class="tr">
+            <div class="td">NumberOfNights</div>
+            <div class="td"><label asp-for="@ci.NumberOfNights">@ci.NumberOfNights</label></div>
+        </div>
+        <div class="tr">
+            <div class="td">DateOfArrival</div>
+            <div class="td"><input type="date" asp-for="@ci.DateOfArrival" /></div>
+        </div>
+        <div class="tr">
+            <div class="td">DateOfDeparture</div>
+            <div class="td"><input type="date" asp-for="@ci.DateOfDeparture" /></div>
+        </div>
+
+
+    </div>
+    <div class="table">
+        @foreach (CartItemDay cid in ci.CartItemDays)
+        {
+            <div class="tr">
+                <div class="td">@cid.DateEffective</div>
+                <div class="td">@cid.PriceAfterTaxPerUnit</div>
+                <div class="td"><input asp-for="@cid.CartItemDayID" value="@cid.CartItemDayID" /></div>
+                <div class="td"><input asp-for="@cid.PriceAfterTaxPerUnit" value="@cid.PriceAfterTaxPerUnit" /></div>
+            </div>
+
+        }
+    </div>
+    <div class="table">
+        <div class="tr">
+            <div class="td"><button type="submit">Update</button></div>
+        </div>
+    </div>
+</form>    
+}
+
+
+

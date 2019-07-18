@@ -1,0 +1,45 @@
+﻿@model ResourceStock
+
+<h2>Update room inventory</h2>
+
+<form asp-action="UpdateResourceStock" method="post">
+    <table>
+        <tr>
+            <td><label asp-for="ResourceStockID">ResourceStockID</label></td>
+            <td><input asp-for="ResourceStockID" readonly /></td>
+        </tr>
+        <tr>
+            <td>
+                <label asp-for="ResourceID">ResourceID</label>
+            </td>
+            <td><input asp-for="ResourceID" readonly /></td>
+        </tr>
+        <tr>
+            <td>
+                <label>Name</label>
+            </td>
+            <td><input asp-for="Resource.Name" readonly /></td>
+        </tr>
+        <tr>
+            <td>
+                <label asp-for="DateFrom">Date From</label>
+            </td>
+            <td>
+                <input type="date" asp-for="DateFrom" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label asp-for="DateTo">Date To</label>
+            </td>
+            <td>
+                <input type="date" asp-for="DateTo" />
+            </td>
+        </tr>
+        <tr>
+            <td><button type="submit">Save</button></td>
+            <td><a asp-action="Index">Cancel</a></td>
+        </tr>
+
+    </table>
+</form>
