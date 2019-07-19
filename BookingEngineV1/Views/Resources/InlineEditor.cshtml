@@ -17,8 +17,8 @@
     @foreach (Resource r in Model)
     {
     <div class="row">
-        <div class="td">@r.ResourceID <input type="hidden" name="Resources[@i].ResourceID" value="@r.ResourceID" /></div>
-        <div class="td"><input class="form-control" name="Resources[@i].CompanyID" value="@r.CompanyID" /></div>
+        @*<div class="td">@r.ResourceID <input type="hidden" name="Resources[@i].ResourceID" value="@r.ResourceID" /></div>*@
+        @*<div class="td"><input class="form-control" name="Resources[@i].CompanyID" value="@r.CompanyID" /></div>*@
         <div class="td"><input class="form-control" name="Resources[@i].Name" value="@r.Name" /></div>
         <div class="td"><input class="form-control" name="Resources[@i].ResourceTypeID" value="@r.ResourceTypeID" /></div>
         <div class="td"><input class="form-control" name="Resources[@i].Description" value="@r.Description" /></div>
